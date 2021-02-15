@@ -1,22 +1,25 @@
 <?php
+
+//phpInfo();exit;
+
 //require_once 'core/Application.php';
 //require_once 'core/Router.php';
 //padarius composer dumpautoload -o terminale nebereikia
 
 require_once 'vendor/autoload.php';
 
-use app\core\Application;
-use app\core\Router;
+use app\core\Application; //router inicijuojamas Application dalyje
 
+
+//sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
 $app = new Application();
-$router = new Router();
 
-//$router->get('/', function () {
-//    return "this is home page";
-//});
-//
-//$router->get('/about', function () {
-//    return "this is about page";
-//});
+$app->router->get('/', function () {
+    return "this is home page";
+});
 
-//$app->run();
+$app->router->get('/about', function () {
+    return "this is about page";
+});
+
+$app->run();
