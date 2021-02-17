@@ -15,8 +15,14 @@ class Request
 {
     public function getPath()
     {
-        $path = $_SERVER['REQUEST_URI'] ?? '/31-almostLara/'; //jei sita reiksme $_SERVER['REQUEST_URI'] nenusetinta - duodam '/'
+        $path = $_SERVER['REQUEST_URI'] ?? '/'; //jei sita reiksme $_SERVER['REQUEST_URI'] nenusetinta - duodam '/'
         $questionMarkPosition = strpos($path, '?');
-        var_dump($questionMarkPosition);
+
+        if  ($questionMarkPosition !== false) :
+            $path = substr($path, 0, $questionMarkPosition);
+        endif;
+
+        return $path;
+//        var_dump($questionMarkPosition);
     }
 }
