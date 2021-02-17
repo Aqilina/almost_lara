@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^$ /php/31-almostLara/ [L]
+    RewriteRule (.*) /php/31-almostLara/$1 [L]
+</IfModule>
