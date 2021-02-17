@@ -44,10 +44,31 @@ class Router
         $this->routes['get'][$path] = $callback;
     }
 
+    //NORIM IVYKDYTI, KO KLIENTAS PRASE. paziurim koki path ir method klientas naudojo ir ar atitinka
     public function resolve()
     {
-//        var_dump($_SERVER);
         //GAUNAMAS KELIAS PO "LOCALHOST"
-        var_dump($this->request->getPath());
+        $path = $this->request->getPath();
+        $method = $this->request->getMethod();
+
+//        var_dump($method);
+//        var_dump($path);
+
+        //TRYING TO RUN A ROUTES FROM ROUTES ARR
+        $callback = $this->routes[$method][$path] ?? false; // jei bandys ivykdyti kelia, kurio nera
+
+        //IF THERE ARE NO SUCH ROUTE ADDED
+        if ($callback === false) :
+            echo 'Page doesn\'t exist';
+            die();
+       endif;
+
+           //IF PAGE EXIST
+        echo call_user_func($callback);
+
+
+//        var_dump($_SERVER);
+//        var_dump($this->request->getPath());
+//        var_dump($this->routes);
     }
 }
