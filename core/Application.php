@@ -20,11 +20,12 @@ class Application
      */
     //issaugomas router - visine savybe. paimtas per composer - automatiskai susizino
     public Router $router;
-
+    public Request $request;
 
     public function __construct()
     {
-    $this->router = new Router(); //php iesko su autoload
+    $this->request = new Request(); //php iesko su autoload
+    $this->router = new Router($this->request); //php iesko su autoload
     }
 
     //paleidziama pati aplikacija

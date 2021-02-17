@@ -32,11 +32,12 @@ class Router
      * @var array
      */
     protected array $routes = [];
+    public Request $request;
 
-    public function __construct()
+    public function __construct($request)
     {
-        echo "This is router constructor";
-    }
+        $this->request = $request;
+        }
 
     public function get($path, $callback)
     {
@@ -45,6 +46,8 @@ class Router
 
     public function resolve()
     {
-        var_dump($_SERVER);
+//        var_dump($_SERVER);
+        //GAUNAMAS KELIAS PO "LOCALHOST"
+        var_dump($this->request->getPath());
     }
 }
