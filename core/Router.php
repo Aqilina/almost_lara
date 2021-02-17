@@ -60,6 +60,7 @@ class Router
 
 //        var_dump($method);
 //        var_dump($path);
+//        var_dump($this->routes);
 
         //TRYING TO RUN A ROUTES FROM ROUTES ARR
         $callback = $this->routes[$method][$path] ?? false; // jei bandys ivykdyti kelia, kurio nera
@@ -70,12 +71,23 @@ class Router
             die();
        endif;
 
-           //IF PAGE EXIST
-        echo call_user_func($callback);
+       //IF CALLBACK VALUE IS STRING
+        //$app->router->get('/about', 'about'); (index.php)
 
+       if (is_string($callback)) :
+           return $this->renderView($callback);
+           endif;
+
+           //IF PAGE EXIST
+        return call_user_func($callback);
 
 //        var_dump($_SERVER);
 //        var_dump($this->request->getPath());
 //        var_dump($this->routes);
+    }
+
+    public function renderView(string $view)
+    {
+        include_once __DIR__ . "/../view/$view.php";
     }
 }
