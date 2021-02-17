@@ -6,7 +6,7 @@
 //require_once 'core/Router.php';
 //padarius composer dumpautoload -o terminale nebereikia
 
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 use app\core\Application; //router inicijuojamas Application dalyje
 
