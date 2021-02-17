@@ -37,7 +37,7 @@ class Router
     public function __construct($request)
     {
         $this->request = $request;
-        }
+    }
 
     /**
      * Adds get route and callback fn to routes array
@@ -69,16 +69,16 @@ class Router
         if ($callback === false) :
             echo 'Page doesn\'t exist';
             die();
-       endif;
+        endif;
 
-       //IF CALLBACK VALUE IS STRING
+        //IF CALLBACK VALUE IS STRING
         //$app->router->get('/about', 'about'); (index.php)
 
-       if (is_string($callback)) :
-           return $this->renderView($callback);
-           endif;
+        if (is_string($callback)) :
+            return $this->renderView($callback);
+        endif;
 
-           //IF PAGE EXIST
+        //IF PAGE EXIST
         return call_user_func($callback);
 
 //        var_dump($_SERVER);
@@ -88,6 +88,15 @@ class Router
 
     public function renderView(string $view)
     {
-        include_once __DIR__ . "/../view/$view.php";
+
+
+        //universalus budas kaip nurodyti kelia iki direktorijos (kaip anksciau config faile APPROOT)
+        include_once Application::$ROOT_DIR . "/view/$view.php";
+    }
+
+    protected function layoutContent()
+    {
+        include_once Application::$ROOT_DIR . "/view/layout/main.php";
+
     }
 }
