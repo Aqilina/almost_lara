@@ -69,6 +69,8 @@ class Router
 
         //IF THERE ARE NO SUCH ROUTE ADDED
         if ($callback === false) :
+            //404 error sukurti
+            Application::$app->response->setResponseCode(404);
             echo 'Page doesn\'t exist';
             die();
         endif;
