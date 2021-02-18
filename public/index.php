@@ -17,9 +17,12 @@ $app = new Application(dirname(__DIR__));
 
 $app->router->get('/', 'home');
 $app->router->get('/about', 'about');
+$app->router->get('/contact', 'contact');
 
+//CREATE POST PATH
+$app->router->post('/contact', function() {
+    return "Handling contact form Post request";
+});
 $app->run();
 
 
-
-jdhfvksfgbn
