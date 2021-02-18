@@ -25,7 +25,7 @@ class Router
      *
      * ['post' => [
      *  ['/' => function return],
-     *  ['/about' => function return],
+     *  ['/contact' => function return],
      * ]
      * ]
      *
@@ -49,6 +49,16 @@ class Router
     public function get($path, $callback)
     {
         $this->routes['get'][$path] = $callback;
+    }
+
+    /**
+     * This creates post path and handling in routes array
+     * @param $path
+     * @param $callback
+     */
+    public function post($path, $callback)
+    {
+        $this->routes['post'][$path] = $callback;
     }
 
 //----------------------------------------------------------------------------------------------------------------------
