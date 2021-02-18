@@ -48,6 +48,8 @@ class Router
     {
         $this->routes['get'][$path] = $callback;
     }
+
+//----------------------------------------------------------------------------------------------------------------------
     /**
      * executes user function if it is set in routes array
      */
@@ -86,17 +88,53 @@ class Router
 //        var_dump($this->routes);
     }
 
+//-----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * renders the page and applies the layout
+     * @param string $view
+     * @return string|string[]
+     */
+    //sujungiami layout ir content is zemiau esanciu f-ju
     public function renderView(string $view)
     {
-
-
         //universalus budas kaip nurodyti kelia iki direktorijos (kaip anksciau config faile APPROOT)
-        include_once Application::$ROOT_DIR . "/view/$view.php";
+        $layout = $this->layoutContent(); //includina main php
+        $page = $this->pageContent($view);
+
+//        echo $layout;
+//        echo $page;
+
+        //take layout and replace the {{content}} with the $page content
+        return str_replace('{{content}}', $page, $layout);
     }
 
+//-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Returns the layout HTML content
+     * @return false|string
+     */
+    //grazina kas yra layout'e. gauti $layoyout reikalinga renderView f-jai
     protected function layoutContent()
     {
+        //start buffering - iraso, kas bus isspjauta
+        ob_start(); //paima i atminti
         include_once Application::$ROOT_DIR . "/view/layout/main.php";
+        //stop and return buffering
+        return ob_get_clean(); // grazina i iskvietimo vieta viska
+    }
 
+//-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Returns given page HTML content
+     * @param $view
+     * @return false|string
+     */
+    //grazina kas yra page'e. gauti $page reikalinga renderView f-jai
+    protected function pageContent($view)
+    {
+        ob_start();
+        include_once Application::$ROOT_DIR . "/view/$view.php";
+        return ob_get_clean();
     }
 }
