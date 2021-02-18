@@ -72,9 +72,10 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
 
-//        var_dump($method);
+        var_dump($method);
 //        var_dump($path);
-//        var_dump($this->routes);
+//        N.B.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        var_dump($this->routes);
 
         //TRYING TO RUN A ROUTES FROM ROUTES ARR
         $callback = $this->routes[$method][$path] ?? false; // jei bandys ivykdyti kelia, kurio nera
