@@ -33,11 +33,13 @@ class Router
      */
     protected array $routes = [];
     public Request $request;
+    public Response $response;
 
-    public function __construct($request)
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
-        }
+        $this->response = $response;
+    }
 
     /**
      * Adds get route and callback fn to routes array
@@ -48,6 +50,8 @@ class Router
     {
         $this->routes['get'][$path] = $callback;
     }
+
+//----------------------------------------------------------------------------------------------------------------------
     /**
      * executes user function if it is set in routes array
      */
@@ -60,22 +64,81 @@ class Router
 
 //        var_dump($method);
 //        var_dump($path);
+//        var_dump($this->routes);
 
         //TRYING TO RUN A ROUTES FROM ROUTES ARR
         $callback = $this->routes[$method][$path] ?? false; // jei bandys ivykdyti kelia, kurio nera
 
         //IF THERE ARE NO SUCH ROUTE ADDED
         if ($callback === false) :
+            //404 error sukurti
+            $this->response->setResponseCode(404);
             echo 'Page doesn\'t exist';
             die();
-       endif;
+        endif;
 
-           //IF PAGE EXIST
-        echo call_user_func($callback);
+        //IF CALLBACK VALUE IS STRING
+        //$app->router->get('/about', 'about'); (index.php)
 
+        if (is_string($callback)) :
+            return $this->renderView($callback);
+        endif;
+
+        //IF PAGE EXIST
+        return call_user_func($callback);
 
 //        var_dump($_SERVER);
 //        var_dump($this->request->getPath());
 //        var_dump($this->routes);
+    }
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * renders the page and applies the layout
+     * @param string $view
+     * @return string|string[]
+     */
+    //sujungiami layout ir content is zemiau esanciu f-ju
+    public function renderView(string $view)
+    {
+        //universalus budas kaip nurodyti kelia iki direktorijos (kaip anksciau config faile APPROOT)
+        $layout = $this->layoutContent(); //includina main php
+        $page = $this->pageContent($view);
+
+//        echo $layout;
+//        echo $page;
+
+        //take layout and replace the {{content}} with the $page content
+        return str_replace('{{content}}', $page, $layout);
+    }
+
+//-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Returns the layout HTML content
+     * @return false|string
+     */
+    //grazina kas yra layout'e. gauti $layoyout reikalinga renderView f-jai
+    protected function layoutContent()
+    {
+        //start buffering - iraso, kas bus isspjauta
+        ob_start(); //paima i atminti
+        include_once Application::$ROOT_DIR . "/view/layout/main.php";
+        //stop and return buffering
+        return ob_get_clean(); // grazina i iskvietimo vieta viska
+    }
+
+//-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Returns given page HTML content
+     * @param $view
+     * @return false|string
+     */
+    //grazina kas yra page'e. gauti $page reikalinga renderView f-jai
+    protected function pageContent($view)
+    {
+        ob_start();
+        include_once Application::$ROOT_DIR . "/view/$view.php";
+        return ob_get_clean();
     }
 }

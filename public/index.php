@@ -6,20 +6,16 @@
 //require_once 'core/Router.php';
 //padarius composer dumpautoload -o terminale nebereikia
 
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 use app\core\Application; //router inicijuojamas Application dalyje
 
 
 //sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
-$app = new Application();
+//kuriant nauja klase paduodama dirname
+$app = new Application(dirname(__DIR__));
 
-$app->router->get('/', function () {
-    return "this is home page";
-});
-
-$app->router->get('/about', function () {
-    return "this is about page";
-});
+$app->router->get('/', 'home');
+$app->router->get('/about', 'about');
 
 $app->run();
