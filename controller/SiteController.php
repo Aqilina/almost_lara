@@ -9,6 +9,20 @@ use app\core\Application;
 class SiteController
 {
     /**
+     *  This handles home page get request
+     * @return string|string[]
+     */
+    public static function home()
+    {
+        $params = [
+            'name' => 'Almost Lara',
+            'subtitle' => 'This is a splendid page'
+
+        ];
+        return Application::$app->router->renderView('home', $params);
+    }
+
+    /**
      * This serves the contact form view
      * @return string
      */
@@ -26,4 +40,6 @@ class SiteController
     {
         return "Handling form from Site Controller handle form method";
     }
+
+
 }
