@@ -8,7 +8,9 @@
 
 require_once '../vendor/autoload.php';
 
+use \app\controller\SiteController;
 use app\core\Application; //router inicijuojamas Application dalyje
+
 
 
 //sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
@@ -19,10 +21,8 @@ $app->router->get('/', 'home');
 $app->router->get('/about', 'about');
 $app->router->get('/contact', 'contact');
 
-//CREATE POST PATH
-$app->router->post('/contact', function() {
-    return "Handling contact form Post request";
-});
+//CREATE POST PATH. paduodamas klases pavadinimas - kaip kontroleris, handleContact metodas - kaip metodas
+$app->router->post('/contact', [SiteController::class, 'handleContact']); //SiteController::class  - su namespace
 $app->run();
 
 
