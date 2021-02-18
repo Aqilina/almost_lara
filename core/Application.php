@@ -33,7 +33,7 @@ class Application
         self::$app = $this; //visur aplikacijos viduj galim paimt sia savybe
         $this->response = new Response(); //php iesko su autoload
         $this->request = new Request(); //php iesko su autoload
-        $this->router = new Router($this->request); //php iesko su autoload
+        $this->router = new Router($this->request, $this->response); //php iesko su autoload
     }
 
     //paleidziama pati aplikacija
