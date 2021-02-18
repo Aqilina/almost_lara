@@ -1,3 +1,5 @@
 
-<h1>This is HOME page for MVC</h1>
+<h1> <?php print $name; ?> - HOME page</h1>
+<p><?php print $subtitle; ?></p>
+
 
