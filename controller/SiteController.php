@@ -4,44 +4,47 @@
 namespace app\controller;
 
 
-use app\core\Application;
 
-class SiteController
+use app\core\Application;
+use app\core\Controller;
+
+
+class SiteController extends Controller
 {
     /**
      *  This handles home page get request
      * @return string|string[]
      */
-    public static function home()
+    public function home()
     {
         $params = [
             'name' => 'Almost Lara',
             'subtitle' => 'This is a splendid page'
 
         ];
-        return Application::$app->router->renderView('home', $params);
+        return $this->render('home', $params);
     }
 
     /**
      * This serves the contact form view
      * @return string
      */
-    public static function contact()
+    public function contact()
     {
         //RENDER VIEW (FROM ROUTER)
-        return Application::$app->router->renderView('contact');
+        return  $this->render('contact');
     }
 
     /**
      * This serves the contact form view
      * @return string
      */
-    public static function about()
+    public function about()
     {
         $params = [
             'version' => '1.0.0'
         ];
-        return Application::$app->router->renderView('about', $params);
+        return $this->render('about', $params);
     }
 
     /**
