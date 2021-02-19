@@ -33,6 +33,18 @@ class SiteController
     }
 
     /**
+     * This serves the contact form view
+     * @return string
+     */
+    public static function about()
+    {
+        $params = [
+            'version' => '1.0.0'
+        ];
+        return Application::$app->router->renderView('about', $params);
+    }
+
+    /**
      * This is where we handle post contact form
      * @return string
      */
