@@ -25,7 +25,7 @@ class Router
      *
      * ['post' => [
      *  ['/' => function return],
-     *  ['/about' => function return],
+     *  ['/contact' => function return],
      * ]
      * ]
      *
@@ -51,6 +51,16 @@ class Router
         $this->routes['get'][$path] = $callback;
     }
 
+    /**
+     * This creates post path and handling in routes array
+     * @param $path
+     * @param $callback
+     */
+    public function post($path, $callback)
+    {
+        $this->routes['post'][$path] = $callback;
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
     /**
      * executes user function if it is set in routes array
@@ -64,6 +74,7 @@ class Router
 
 //        var_dump($method);
 //        var_dump($path);
+//        N.B.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //        var_dump($this->routes);
 
         //TRYING TO RUN A ROUTES FROM ROUTES ARR
@@ -73,8 +84,8 @@ class Router
         if ($callback === false) :
             //404 error sukurti
             $this->response->setResponseCode(404);
-            echo 'Page doesn\'t exist';
-            die();
+           return $this->renderView('_404');
+
         endif;
 
         //IF CALLBACK VALUE IS STRING
@@ -100,11 +111,11 @@ class Router
      * @return string|string[]
      */
     //sujungiami layout ir content is zemiau esanciu f-ju
-    public function renderView(string $view)
+    public function renderView(string $view, array $params =  [])
     {
         //universalus budas kaip nurodyti kelia iki direktorijos (kaip anksciau config faile APPROOT)
         $layout = $this->layoutContent(); //includina main php
-        $page = $this->pageContent($view);
+        $page = $this->pageContent($view, $params);
 
 //        echo $layout;
 //        echo $page;
@@ -135,8 +146,17 @@ class Router
      * @return false|string
      */
     //grazina kas yra page'e. gauti $page reikalinga renderView f-jai
-    protected function pageContent($view)
+    //TIK VIEAM VIEW ABOUT(SITECONTROLLER)???
+    protected function pageContent($view, $params)
     {
+        //a smart way of creating variables dynamically
+        //        $name = $params['name'];
+        foreach ($params as $key => $param) :
+            $$key = $param;
+        endforeach;
+//        var_dump($params); //$params is SiteController
+
+        //start buffering
         ob_start();
         include_once Application::$ROOT_DIR . "/view/$view.php";
         return ob_get_clean();
