@@ -31,11 +31,30 @@ class Request
      * This will return http method get or post
      * @return string
      */
-    public function getMethod(): string
+    public function method(): string
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
+    /**
+     * helper fn returns true if server method is get
+     * @return bool
+     */
+//    ----------------------------------------------------------------------------------------------------------------------
+    public function isGet(): bool
+    {
+        return $this->method() === 'get';
+    }
+
+    /**
+     * helper fn returns true if server method is post
+     * @return bool
+     */
+    public function isPost(): bool
+    {
+        return $this->method() === 'post';
+    }
+//----------------------------------------------------------------------------------------------------------------------
     /**
      * sanitize get and post arrays with html special chars
      * @return array
@@ -46,13 +65,13 @@ class Request
         $body = [];
 
         //what type of request
-        if ($this->getMethod() === 'post') :
+        if ($this->isPost()) :
             foreach ($_POST as $key => $value) :
                 $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS); //isvalom paduota reiksme
                 endforeach;
         endif;
 
-        if ($this->getMethod() === 'get') :
+        if ($this->isGet()) :
             foreach ($_POST as $key => $value) :
                 $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS); //isvalom paduota reiksme
             endforeach;
