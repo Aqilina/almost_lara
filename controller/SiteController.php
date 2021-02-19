@@ -53,7 +53,11 @@ class SiteController extends Controller
      */
     public static function handleContact()
     {
-        return "Handling form from Site Controller handle form method";
+        //we use getBody method to see user input
+        $body = Application::$app->request->getBody();
+
+        var_dump($body);
+//        return "Handling form from Site Controller handle form method";
     }
 
 
