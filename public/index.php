@@ -19,6 +19,7 @@ $app = new Application(dirname(__DIR__));
 //CREATE POST PATH. paduodamas klases pavadinimas - kaip kontroleris, handleContact metodas - kaip metodas
 $app->router->get('/', [SiteController::class, 'home']);
 $app->router->get('/about', [SiteController::class, 'about']);
+//$app->router->get('/about', 'about'); //jei jokio funkcionalumo, tik dekoracija - g.b. string
 $app->router->get('/contact', [SiteController::class, 'contact']);
 $app->router->post('/contact', [SiteController::class, 'handleContact']); //SiteController::class  - su namespace
 $app->run();
