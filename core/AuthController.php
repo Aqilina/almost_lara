@@ -13,7 +13,13 @@ class AuthController extends Controller
 
     public function login()
     {
-        return $this->render('login');
+        if ($request->isGet()) :
+            return $this->render('register');
+        endif;
+
+        if ($request->isPost()) :
+            return "Validating form";
+        endif;
     }
 
     public function register(Request $request)
