@@ -9,7 +9,10 @@
 require_once '../vendor/autoload.php';
 
 use \app\controller\SiteController;
-use app\core\Application; //router inicijuojamas Application dalyje
+use app\core\Application;
+use app\core\AuthController;
+
+//router inicijuojamas Application dalyje
 
 
 //sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
@@ -22,8 +25,16 @@ $app->router->get('/home', [SiteController::class, 'home']);
 $app->router->get('/about', [SiteController::class, 'about']);
 //$app->router->get('/about', 'about'); //jei jokio funkcionalumo, tik dekoracija - g.b. string
 $app->router->get('/contact', [SiteController::class, 'contact']);
-
 $app->router->post('/contact', [SiteController::class, 'handleContact']); //SiteController::class  - su namespace
+
+//routes for login
+$app->router->get('/login', [AuthController::class, 'login']);
+$app->router->post('/login', [AuthController::class, 'login']);
+
+//routes for register
+$app->router->get('/register', [AuthController::class, 'register']);
+$app->router->post('/register', [AuthController::class, 'register']);
+
 $app->run();
 
 
