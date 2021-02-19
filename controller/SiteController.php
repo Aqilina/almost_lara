@@ -4,10 +4,9 @@
 namespace app\controller;
 
 
-
 use app\core\Application;
 use app\core\Controller;
-
+use app\core\Request;
 
 class SiteController extends Controller
 {
@@ -51,10 +50,10 @@ class SiteController extends Controller
      * This is where we handle post contact form
      * @return string
      */
-    public static function handleContact()
+    public static function handleContact(Request $request)
     {
         //we use getBody method to see user input
-        $body = Application::$app->request->getBody();
+        $body = $request->getBody();
 
         var_dump($body);
 //        return "Handling form from Site Controller handle form method";

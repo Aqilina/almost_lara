@@ -99,12 +99,12 @@ class Router
         if (is_array($callback)) :
             //$callback yra array - jis ateina is index.php - ten paduodamas masyvas
             $instance = new $callback[0]; //sukuriama nauja
-            $callback[0] = $instance;
-            var_dump($callback);
+            $callback[0] = $instance; //handleContact iskvieciam
+//            var_dump($callback);
         endif;
 
         //IF PAGE EXIST
-        return call_user_func($callback);
+        return call_user_func($callback, $this->request); //
 
 //        var_dump($_SERVER);
 //        var_dump($this->request->getPath());
