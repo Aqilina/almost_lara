@@ -99,7 +99,8 @@ class Router
         if (is_array($callback)) :
             //$callback yra array - jis ateina is index.php - ten paduodamas masyvas
             $instance = new $callback[0]; //sukuriama nauja
-            $callback[0] = $instance; //handleContact iskvieciam
+            Application::$app->controller = $instance; //handleContact iskvieciam
+            $callback[0] =  Application::$app->controller;
 //            var_dump($callback);
         endif;
 
@@ -140,9 +141,10 @@ class Router
     //grazina kas yra layout'e. gauti $layoyout reikalinga renderView f-jai
     protected function layoutContent()
     {
+        $layout = Application::$app->controller->layout;
         //start buffering - iraso, kas bus isspjauta
         ob_start(); //paima i atminti
-        include_once Application::$ROOT_DIR . "/view/layout/main.php";
+        include_once Application::$ROOT_DIR . "/view/layout/$layout.php";
         //stop and return buffering
         return ob_get_clean(); // grazina i iskvietimo vieta viska
     }
