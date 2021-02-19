@@ -146,14 +146,14 @@ class Router
      * @return false|string
      */
     //grazina kas yra page'e. gauti $page reikalinga renderView f-jai
+    //TIK VIEAM VIEW ABOUT(SITECONTROLLER)???
     protected function pageContent($view, $params)
     {
         //a smart way of creating variables dynamically
+        //        $name = $params['name'];
         foreach ($params as $key => $param) :
             $$key = $param;
         endforeach;
-        $name = $params['name'];
-//
 //        var_dump($params); //$params is SiteController
 
         //start buffering
