@@ -3,13 +3,13 @@
 <!--//KURTI POST REQUEST, NEBE GET-->
 
 <form action="" method="post">
-    <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email">
+    <div class="form-group mb-3">
+        <label for="email" Email address</label>
+        <input name="email" type="text" type="email" class="form-control" id="email">
     </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+    <div class="form-group mb-3">
+        <label for="userText" Password</label>
+        <textarea name="userText" class="form-control" id="userText" cols="30" rows=""></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

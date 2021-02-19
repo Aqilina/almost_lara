@@ -1,5 +1,5 @@
 
-<h1> <?php print $name; ?> - HOME page</h1>
-<p><?php print $subtitle; ?></p>
+<h1> <?php echo $name; ?> - HOME page</h1>
+<p><?php echo $subtitle; ?></p>
 
 
