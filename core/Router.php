@@ -66,6 +66,7 @@ class Router
      * executes user function if it is set in routes array
      */
     //NORIM IVYKDYTI, KO KLIENTAS PRASE. paziurim koki path ir method klientas naudojo ir ar atitinka
+    //tikrinama ar $callback stringa, array ar - g.b. function
     public function resolve()
     {
         //GAUNAMAS KELIAS PO "LOCALHOST"
@@ -90,13 +91,20 @@ class Router
 
         //IF CALLBACK VALUE IS STRING
         //$app->router->get('/about', 'about'); (index.php)
-
         if (is_string($callback)) :
             return $this->renderView($callback);
         endif;
 
+        //IF $CALLBACK VALUE IS ARRAY (than handle with class instance)
+        if (is_array($callback)) :
+            //$callback yra array - jis ateina is index.php - ten paduodamas masyvas
+            $instance = new $callback[0]; //sukuriama nauja
+            $callback[0] = $instance; //handleContact iskvieciam
+//            var_dump($callback);
+        endif;
+
         //IF PAGE EXIST
-        return call_user_func($callback);
+        return call_user_func($callback, $this->request); //
 
 //        var_dump($_SERVER);
 //        var_dump($this->request->getPath());

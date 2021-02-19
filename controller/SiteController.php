@@ -5,52 +5,58 @@ namespace app\controller;
 
 
 use app\core\Application;
+use app\core\Controller;
+use app\core\Request;
 
-class SiteController
+class SiteController extends Controller
 {
     /**
      *  This handles home page get request
      * @return string|string[]
      */
-    public static function home()
+    public function home()
     {
         $params = [
             'name' => 'Almost Lara',
             'subtitle' => 'This is a splendid page'
 
         ];
-        return Application::$app->router->renderView('home', $params);
+        return $this->render('home', $params);
     }
 
     /**
      * This serves the contact form view
      * @return string
      */
-    public static function contact()
+    public function contact()
     {
         //RENDER VIEW (FROM ROUTER)
-        return Application::$app->router->renderView('contact');
+        return  $this->render('contact');
     }
 
     /**
      * This serves the contact form view
      * @return string
      */
-    public static function about()
+    public function about()
     {
         $params = [
             'version' => '1.0.0'
         ];
-        return Application::$app->router->renderView('about', $params);
+        return $this->render('about', $params);
     }
 
     /**
      * This is where we handle post contact form
      * @return string
      */
-    public static function handleContact()
+    public static function handleContact(Request $request)
     {
-        return "Handling form from Site Controller handle form method";
+        //we use getBody method to see user input
+        $body = $request->getBody();
+
+        var_dump($body);
+//        return "Handling form from Site Controller handle form method";
     }
 
 
