@@ -71,7 +71,7 @@ class Router
     {
         //GAUNAMAS KELIAS PO "LOCALHOST"
         $path = $this->request->getPath();
-        $method = $this->request->getMethod();
+        $method = $this->request->method();
 
 //        var_dump($method);
 //        var_dump($path);
