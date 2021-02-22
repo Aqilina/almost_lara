@@ -23,7 +23,13 @@ class Request
             $path = substr($path, 0, $questionMarkPosition);
         endif;
 
+        //kad gale butu galima ivesti slash
+        if (strlen($path) > 1) :
+            $path = rtrim($path, '/');
+            endif;
+
         return $path;
+        var_dump($path);
 //        var_dump($questionMarkPosition);
     }
 
