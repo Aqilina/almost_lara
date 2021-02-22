@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function login()
     {
         //have ability to change layout
-        $this->setLayout('auth');
+//        $this->setLayout('auth');
         return $this->render('login');
     }
 
@@ -22,11 +22,33 @@ class AuthController extends Controller
     {
         if ($request->isGet()) :
             $this->setLayout('auth');
-        return $this->render('register');
-        endif;
 
+            $data = [
+                'name'      => '',
+                'email'     => '',
+                'password'  => '',
+                'confirmPassword' => '',
+                'errors' => [
+                    'nameErr'      => '',
+                    'emailErr'     => '',
+                    'passwordErr'  => '',
+                    'confirmPasswordErr' => '',
+                ],
+                'currentPage' => 'register'
+        ];
+
+        return $this->render('register', $data);
+        endif;
+//-------------------------------------------------------------------------------------------------
         if ($request->isPost()) :
-            return "Validating form";
+
+            //request is post and we need to pull user data
+            //PRAVALYTA SU getBody().
+            $data = $request->getBody();
+//        var_dump($data);
+//            return "Validating form";
+
+            return $this->render('register', $data);
         endif;
     }
 
