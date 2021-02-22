@@ -64,8 +64,24 @@ class AuthController extends Controller
 //        var_dump($data);
 //            return "Validating form";
 
-            return $this->render('register', $data);
+            // if no errors
+            if ($this->vld->ifEmptyArr($data['errors'])) :
+
+
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                if ($this->userModel->register($data)) {
+                    // success user added
+                    // set flash msg
+//                    flash('register_success', 'You have registered successfully');
+                    // header("Location: " . URLROOT . "/users/login");
+                    redirect('/login');
+                } else {
+                    die('Something went wrong in adding user to db');
+                }
         endif;
+            return $this->render('register', $data);
+endif;
     }
 
 
