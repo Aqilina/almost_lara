@@ -12,12 +12,26 @@ use \app\controller\SiteController;
 use app\core\Application;
 use app\core\AuthController;
 
+//COMPOSER.JSON inicijuota
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+$config = [
+    'db' => [
+        'dsn' => $_ENV['DB_DSN'],
+        'user' => $_ENV['DB_USER'],
+        'password' => $_ENV['DB_PASSWORD'],
+    ]
+];
+
+//var_dump($config);
+
 //router inicijuojamas Application dalyje
 
 
 //sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
 //kuriant nauja klase paduodama dirname
-$app = new Application(dirname(__DIR__));
+$app = new Application(dirname(__DIR__), $config);
 
 //CREATE POST PATH. paduodamas klases pavadinimas - kaip kontroleris, handleContact metodas - kaip metodas
 $app->router->get('/', [SiteController::class, 'home']);
