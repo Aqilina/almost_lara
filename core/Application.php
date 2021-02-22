@@ -26,6 +26,7 @@ class Application
     public Response $response; //paimti $response:  kitam faile, reikia susikurti = new Response
     public static Application $app; //paimti $app: Application::$app-> . klase t.b. includinta. gn paimti VISAM DARBE
     public Controller $controller;
+//    public Controller $controller;
 
     public function __construct($rootPath)
     {
