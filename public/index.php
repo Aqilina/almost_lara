@@ -24,7 +24,7 @@ $config = [
     ]
 ];
 
-var_dump($config);
+//var_dump($config);
 
 //router inicijuojamas Application dalyje
 
