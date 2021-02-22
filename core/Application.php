@@ -27,8 +27,10 @@ class Application
     public static Application $app; //paimti $app: Application::$app-> . klase t.b. includinta. gn paimti VISAM DARBE
     public Controller $controller;
 //    public Controller $controller;
+    public Database $db;
 
-    public function __construct($rootPath)
+
+    public function __construct($rootPath, $config)  //$config aprasytas index.php
     {
         //static property assignment - statinis pasiekiamas su ::
         self::$ROOT_DIR = $rootPath;
@@ -36,6 +38,7 @@ class Application
         $this->response = new Response(); //php iesko su autoload
         $this->request = new Request(); //php iesko su autoload
         $this->router = new Router($this->request, $this->response); //php iesko su autoload
+        $this->db = new Database($config['db']); //php iesko su autoload
     }
 
     //paleidziama pati aplikacija

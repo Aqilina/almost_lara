@@ -31,7 +31,7 @@ var_dump($config);
 
 //sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
 //kuriant nauja klase paduodama dirname
-$app = new Application(dirname(__DIR__));
+$app = new Application(dirname(__DIR__), $config);
 
 //CREATE POST PATH. paduodamas klases pavadinimas - kaip kontroleris, handleContact metodas - kaip metodas
 $app->router->get('/', [SiteController::class, 'home']);
