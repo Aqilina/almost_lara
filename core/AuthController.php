@@ -59,8 +59,8 @@ class AuthController extends Controller
 
             $data['errors']['nameErr'] = $this->vld->validateName($data['name']);
 
-//            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email'], $this->userModel);
-            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email']);
+            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email'], $this->userModel);
+//            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email']);
 
             $data['errors']['passwordErr'] = $this->vld->validatePassword($data['password'], 6, 10);
 

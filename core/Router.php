@@ -80,7 +80,7 @@ class Router
 
         //TRYING TO RUN A ROUTES FROM ROUTES ARR
         $callback = $this->routes[$method][$path] ?? false; // jei bandys ivykdyti kelia, kurio nera
-
+    var_dump($callback);
         //IF THERE ARE NO SUCH ROUTE ADDED
         if ($callback === false) :
             //404 error sukurti
