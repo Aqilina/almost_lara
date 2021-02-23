@@ -11,4 +11,14 @@ class Session
          //PRADEDAMA SESIJA
          session_start();
      }
+
+    /**
+     * Check if user is logged in
+     * @return bool
+     */
+    public static function isUserLoggedIn() : bool
+    {
+        if (isset($_SESSION['user_id'])) return true;
+        return false;
+     }
 }
