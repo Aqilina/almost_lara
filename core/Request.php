@@ -85,4 +85,15 @@ class Request
 
         return $body;
     }
+
+    /**
+     * Simple way to redirect to the location
+     * @param $whereTo
+     * @return string
+     */
+    function redirect($whereTo)
+    {
+        header("Location: $whereTo");
+    }
+
 }

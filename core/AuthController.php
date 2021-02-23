@@ -78,8 +78,7 @@ class AuthController extends Controller
                     // success user added
                     // set flash msg
 //                    flash('register_success', 'You have registered successfully');
-                    // header("Location: " . URLROOT . "/users/login");
-//                    redirect('/login');
+                    $request->redirect('/login');
                 } else {
                     die('Something went wrong in adding user to db');
                 }
