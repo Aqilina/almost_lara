@@ -19,7 +19,7 @@ class PostModel
     public function getPosts()
     {
         $sql = "SELECT posts.title, posts.body, users.name, users.email,
-        posts.id as postId,
+        posts.post_id as postId,
         users.id as userId,
         posts.created_at as postCreated,
         users.created_at as userCreated
