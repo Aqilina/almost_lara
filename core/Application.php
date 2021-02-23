@@ -28,10 +28,12 @@ class Application
     public Controller $controller;
 //    public Controller $controller;
     public Database $db;
+    public Session $session;
 
 
     public function __construct($rootPath, $config)  //$config aprasytas index.php
     {
+        $this->session = new Session();
         //static property assignment - statinis pasiekiamas su ::
         self::$ROOT_DIR = $rootPath;
         self::$app = $this; //visur aplikacijos viduj galim paimt sia savybe
@@ -39,6 +41,7 @@ class Application
         $this->request = new Request(); //php iesko su autoload
         $this->router = new Router($this->request, $this->response); //php iesko su autoload
         $this->db = new Database($config['db']); //php iesko su autoload
+
     }
 
     //paleidziama pati aplikacija

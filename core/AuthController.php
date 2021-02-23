@@ -21,33 +21,78 @@ class AuthController extends Controller
         $this->userModel = new UserModel();
     }
 
-    public function login()
+    public function login(Request $request)
     {
         //have ability to change layout
 //        $this->setLayout('auth');
-        return $this->render('login');
+
+        if ($request->isGet()) :
+            $this->setLayout('auth');
+
+            $data = [
+                'email' => '',
+                'password' => '',
+                'errors' => [
+                    'emailErr' => '',
+                    'passwordErr' => '',
+                ]
+            ];
+
+            return $this->render('login', $data);
+        endif;
+
+//        ---------------------------------------------------------------------------------------------------
+        if ($request->isPost()) :
+            //PRAVALYTA SU getBody().
+            $data = $request->getBody();
+
+            //VALIDACIJA
+            $data['errors']['emailErr'] = $this->vld->validateLoginEmail($data['email'], $this->userModel);
+            $data['errors']['passwordErr'] = $this->vld->validateEmpty($data['password'], 'Please enter your password');
+
+            //JEI NERA KLAIDU
+            if ($this->vld->ifEmptyArr($data['errors'])) {
+                // no errors
+                // email was found and password was entered
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                if ($loggedInUser) {
+                    // create session
+                    // password match
+
+                    $this->createUserSession($loggedInUser);
+                    $request->redirect('/posts');
+                } else {
+                    $data['errors']['passwordErr'] = 'Wrong password or email';
+                    // load view with errors
+                    return $this->render('login', $data);
+                }
+            }
+            endif;
+                return $this->render('login', $data);
     }
 
+//------------------------------------------------------------------------------------------------------------------------
     public function register(Request $request)
     {
         if ($request->isGet()) :
             $this->setLayout('auth');
 
             $data = [
-                'name'      => '',
-                'email'     => '',
-                'password'  => '',
+                'name' => '',
+                'email' => '',
+                'password' => '',
                 'confirmPassword' => '',
                 'errors' => [
-                    'nameErr'      => '',
-                    'emailErr'     => '',
-                    'passwordErr'  => '',
+                    'nameErr' => '',
+                    'emailErr' => '',
+                    'passwordErr' => '',
                     'confirmPasswordErr' => '',
                 ],
                 'currentPage' => 'register'
-        ];
+            ];
 
-        return $this->render('register', $data);
+            return $this->render('register', $data);
         endif;
 //-------------------------------------------------------------------------------------------------
         if ($request->isPost()) :
@@ -78,15 +123,37 @@ class AuthController extends Controller
                     // success user added
                     // set flash msg
 //                    flash('register_success', 'You have registered successfully');
-                    // header("Location: " . URLROOT . "/users/login");
-//                    redirect('/login');
+                    $request->redirect('/login');
                 } else {
                     die('Something went wrong in adding user to db');
                 }
-        endif;
+            endif;
             return $this->render('register', $data);
-endif;
+        endif;
     }
+
+    /**
+     * if we have user, we save it data in session
+     * @param $userRow
+     */
+    public function createUserSession($userRow)
+    {
+        $_SESSION['user_id'] = $userRow->id;
+        $_SESSION['user_email'] = $userRow->email;
+        $_SESSION['user_name'] = $userRow->name;
+    }
+
+    public function logout(Request $request)
+    {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_email']);
+        unset($_SESSION['user_name']);
+
+        session_destroy();
+
+        $request->redirect('/home');
+    }
+
 
 
 }
