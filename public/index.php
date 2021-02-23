@@ -47,6 +47,9 @@ $app->router->post('/login', [AuthController::class, 'login']);
 $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
 
+//logout
+$app->router->get('/logout', [AuthController::class, 'logout']);
+
 //create post
 $app->router->get('/posts', [PostsController::class, 'index']);
 //$app->router->get('/posts{$id}', [PostsController::class, 'posts']);
