@@ -1,5 +1,4 @@
 <?php
-
 //phpInfo();exit;
 
 //require_once 'core/Application.php';
@@ -23,16 +22,13 @@ $config = [
         'password' => $_ENV['DB_PASSWORD'],
     ]
 ];
-
 //var_dump($config);
-
-//router inicijuojamas Application dalyje
-
 
 //sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
 //kuriant nauja klase paduodama dirname
 $app = new Application(dirname(__DIR__), $config);
 
+//router inicijuojamas Application dalyje
 //CREATE POST PATH. paduodamas klases pavadinimas - kaip kontroleris, handleContact metodas - kaip metodas
 $app->router->get('/', [SiteController::class, 'home']);
 $app->router->get('/home', [SiteController::class, 'home']);

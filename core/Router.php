@@ -141,7 +141,12 @@ class Router
     //grazina kas yra layout'e. gauti $layoyout reikalinga renderView f-jai
     protected function layoutContent()
     {
-        $layout = Application::$app->controller->layout;
+        if (isset(Application::$app->controller)) :
+            $layout = Application::$app->controller->layout;
+        else :
+            $layout = 'main';
+        endif;
+
         //start buffering - iraso, kas bus isspjauta
         ob_start(); //paima i atminti
         include_once Application::$ROOT_DIR . "/view/layout/$layout.php";
@@ -153,6 +158,7 @@ class Router
     /**
      * Returns given page HTML content
      * @param $view
+     * @param $params
      * @return false|string
      */
     //grazina kas yra page'e. gauti $page reikalinga renderView f-jai
