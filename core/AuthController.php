@@ -21,11 +21,56 @@ class AuthController extends Controller
         $this->userModel = new UserModel();
     }
 
-    public function login()
+    public function login(Request $request)
     {
         //have ability to change layout
 //        $this->setLayout('auth');
-        return $this->render('login');
+
+        if ($request->isGet()) :
+            $this->setLayout('auth');
+
+            $data = [
+                'email' => '',
+                'password' => '',
+                'errors' => [
+                    'emailErr' => '',
+                    'passwordErr' => '',
+                ]
+            ];
+
+            return $this->render('login', $data);
+        endif;
+
+//        ---------------------------------------------------------------------------------------------------
+        if ($request->isPost()) :
+            //PRAVALYTA SU getBody().
+            $data = $request->getBody();
+
+            //VALIDACIJA
+            $data['errors']['emailErr'] = $this->vld->validateLoginEmail($data['email'], $this->userModel);
+            $data['errors']['passwordErr'] = $this->vld->validateEmpty($data['password'], 'Please enter your password');
+
+            //JEI NERA KLAIDU
+            if ($this->vld->ifEmptyArr($data['errors'])) {
+                // no errors
+                // email was found and password was entered
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                var_dump($loggedInUser);
+
+                if ($loggedInUser) {
+                    // create session
+                    // password match
+
+//                    $this->createUserSession($loggedInUser);
+                } else {
+                    $data['errors']['passwordErr'] = 'Wrong password or email';
+                    // load view with errors
+                    return $this->render('login', $data);
+                }
+            }
+            endif;
+                return $this->render('login', $data);
     }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -35,20 +80,20 @@ class AuthController extends Controller
             $this->setLayout('auth');
 
             $data = [
-                'name'      => '',
-                'email'     => '',
-                'password'  => '',
+                'name' => '',
+                'email' => '',
+                'password' => '',
                 'confirmPassword' => '',
                 'errors' => [
-                    'nameErr'      => '',
-                    'emailErr'     => '',
-                    'passwordErr'  => '',
+                    'nameErr' => '',
+                    'emailErr' => '',
+                    'passwordErr' => '',
                     'confirmPasswordErr' => '',
                 ],
                 'currentPage' => 'register'
-        ];
+            ];
 
-        return $this->render('register', $data);
+            return $this->render('register', $data);
         endif;
 //-------------------------------------------------------------------------------------------------
         if ($request->isPost()) :
@@ -83,9 +128,9 @@ class AuthController extends Controller
                 } else {
                     die('Something went wrong in adding user to db');
                 }
-        endif;
+            endif;
             return $this->render('register', $data);
-endif;
+        endif;
     }
 
 
