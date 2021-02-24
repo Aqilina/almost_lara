@@ -6,6 +6,7 @@ namespace app\controller;
 
 use app\core\Controller;
 use app\model\PostModel;
+use app\core\Request;
 
 class PostsController extends Controller
 {
@@ -16,7 +17,7 @@ class PostsController extends Controller
         $this->postModel = new PostModel();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $posts = $this->postModel->getPosts();
         $data = [
@@ -25,9 +26,11 @@ class PostsController extends Controller
         return $this->render('posts/posts', $data);
     }
 
-    public function post()
+    public function post(Request $request, $urlParamName = null)
     {
-        $data = [];
+        $data = [
+            'urlParamName' => $urlParamName,
+        ];
         return $this->render('posts/singlePost', $data);
 
     }
