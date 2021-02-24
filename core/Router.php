@@ -92,6 +92,16 @@ class Router
         //GAUNAMAS KELIAS PO "LOCALHOST"
         $path = $this->request->getPath();
         $method = $this->request->method();
+        
+        //path = "/post/1" - take argument value "1"
+        //path = "/post" - skip argument take
+        $pathArr = explode('/', ltrim($path, '/')); //nutriminti '/', kad nesprogdintu tuscio stringo
+        if (count($pathArr) > 1) :
+            $path = '/'. $pathArr[0];
+        $urlParam['value'] = $pathArr[1];
+            endif;
+
+        var_dump($pathArr);
 
 //        var_dump($method);
 //        var_dump($path);
@@ -132,7 +142,7 @@ class Router
 //                   1 => string 'post'
 //                  'urlParamName' => string 'id'
 
-                $urlParamName = $callback['urlParamName'];
+                $urlParam['name'] = $callback['urlParamName'];
             array_splice($callback, 2, 1);
                 endif;
         endif;
@@ -141,7 +151,13 @@ class Router
 
 
         //IF PAGE EXIST
-        return call_user_func($callback, $this->request, $urlParamName ?? null); //
+
+//        $urlParam = [
+//            'value' => 32
+//            'name' => 'id'
+//        ];
+
+        return call_user_func($callback, $this->request, $urlParam ?? null); //
 
 //        var_dump($_SERVER);
 //        var_dump($this->request->getPath());
