@@ -101,7 +101,7 @@ class Router
         $urlParam['value'] = $pathArr[1];
             endif;
 
-        var_dump($pathArr);
+//        var_dump($pathArr);
 
 //        var_dump($method);
 //        var_dump($path);
@@ -147,7 +147,7 @@ class Router
                 endif;
         endif;
 
-        var_dump($callback);
+//        var_dump($callback);
 
 
         //IF PAGE EXIST

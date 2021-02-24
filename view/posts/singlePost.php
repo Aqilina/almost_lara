@@ -20,7 +20,7 @@
                 class="fa fa-pencil"></i> Edit</a>
 
     <!--forma apdorojama posts/delete-->
-    <form action="<?php echo '/posts/delete/' . $post->post_id ?>" method="post" class="pull-right">
+    <form action="<?php echo '/posts/delete/' . $post->post_id ?>" method="post" class="float-right">
         <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i> Delete</button>
     </form>
 
