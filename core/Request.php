@@ -29,7 +29,7 @@ class Request
             endif;
 
         return $path;
-        var_dump($path);
+//        var_dump($path);
 //        var_dump($questionMarkPosition);
     }
 

@@ -151,7 +151,7 @@ class AuthController extends Controller
 
         session_destroy();
 
-        $request->redirect('/home');
+        $request->redirect('/');
     }
 
 
