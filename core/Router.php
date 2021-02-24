@@ -25,6 +25,8 @@ class Router
      *
      * ['post' => [
      *  ['/' => function return],
+     *  ['/{$id}' => function return],
+     *
      *  ['/contact' => function return],
      * ]
      * ]
@@ -48,8 +50,26 @@ class Router
      */
     public function get($path, $callback)
     {
+
+        //pasitikrinti ar galima suskaldyti $path pagal '/' - po antro '/' - eina '{}' (jame- $id)
+        if (strpos($path, '{')) :
+            $startPos = strpos($path, '{');
+            $endPos = strpos($path, '}');
+
+            //id:
+            $argName = substr($path, $startPos+1, $endPos - $startPos-1);
+            $callback['urlParamName'] = $argName;
+
+            //$path= '/post':
+            $path = substr($path, 0, $startPos-1);
+
+//            var_dump($argName);
+//            var_dump($path); //atspausdina visus is 'index.php'
+
+        endif;
         $this->routes['get'][$path] = $callback;
     }
+
 
     /**
      * This creates post path and handling in routes array
@@ -78,14 +98,17 @@ class Router
 //        N.B.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //        var_dump($this->routes);
 
+
+//-----------------------------------------------------------------------------------------------------------------
         //TRYING TO RUN A ROUTES FROM ROUTES ARR
         $callback = $this->routes[$method][$path] ?? false; // jei bandys ivykdyti kelia, kurio nera
-//    var_dump($callback);
+//        var_dump($callback);
+
         //IF THERE ARE NO SUCH ROUTE ADDED
         if ($callback === false) :
             //404 error sukurti
             $this->response->setResponseCode(404);
-           return $this->renderView('_404');
+            return $this->renderView('_404');
 
         endif;
 
@@ -100,12 +123,25 @@ class Router
             //$callback yra array - jis ateina is index.php - ten paduodamas masyvas
             $instance = new $callback[0]; //sukuriama nauja
             Application::$app->controller = $instance; //handleContact iskvieciam
-            $callback[0] =  Application::$app->controller;
+            $callback[0] = Application::$app->controller;
 //            var_dump($callback);
+        
+        //check if we have url arguments in callback array
+            if (isset($callback['urlParamName'])) :
+//                   0 => string 'app\controller\PostsController'
+//                   1 => string 'post'
+//                  'urlParamName' => string 'id'
+
+                $urlParamName = $callback['urlParamName'];
+            array_splice($callback, 2, 1);
+                endif;
         endif;
 
+        var_dump($callback);
+
+
         //IF PAGE EXIST
-        return call_user_func($callback, $this->request); //
+        return call_user_func($callback, $this->request, $urlParamName ?? null); //
 
 //        var_dump($_SERVER);
 //        var_dump($this->request->getPath());
@@ -120,7 +156,7 @@ class Router
      * @return string|string[]
      */
     //sujungiami layout ir content is zemiau esanciu f-ju
-    public function renderView(string $view, array $params =  [])
+    public function renderView(string $view, array $params = [])
     {
         //universalus budas kaip nurodyti kelia iki direktorijos (kaip anksciau config faile APPROOT)
         $layout = $this->layoutContent(); //includina main php
