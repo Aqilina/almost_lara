@@ -58,7 +58,7 @@ class PostModel
     // return false if not found
     public function getPostById($id)
     {
-        $this->db->query("SELECT * FROM posts WHERE id = :id");
+        $this->db->query("SELECT * FROM posts WHERE post_id = :id");
 
         $this->db->bind(':id', $id);
 
