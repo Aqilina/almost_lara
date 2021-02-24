@@ -26,7 +26,8 @@ $config = [
 ];
 //var_dump($config);
 
-//sukuriama nauja aplikacija, kurioje aukuriamas naujas routeris(Application.php)
+//sukuriama nauja aplikacija, kurioje sukuriamas naujas routeris(Application.php)
+//router inicijuojamas Application dalyje
 //kuriant nauja klase paduodama dirname
 $app = new Application(dirname(__DIR__), $config);
 
@@ -52,7 +53,7 @@ $app->router->get('/logout', [AuthController::class, 'logout']);
 
 //create post
 $app->router->get('/posts', [PostsController::class, 'index']);
-$app->router->get('/posts/1', [PostsController::class, 'singlePost']);
+$app->router->get('/post/{id}', [PostsController::class, 'post', ]);
 
 $app->run();
 
