@@ -1,4 +1,4 @@
-<?php var_dump($post) ?>
+<?php //var_dump($post) ?>
 
     <!--SINGLE POST VIEW /posts/show/ID-->
     <a href="/posts" class="btn btn-light my-3"><i class="fa fa-chevron-left"></i> Back</a>
