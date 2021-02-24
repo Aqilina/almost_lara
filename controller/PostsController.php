@@ -42,8 +42,6 @@ class PostsController extends Controller
         //jei ivestas ne tas post id
         if ($post === false) return $this->render('_404');
 
-
-
             $user = $this->userModel->getUserById($post->user_id);
 
             $data = [
@@ -52,14 +50,27 @@ class PostsController extends Controller
                 'user' => $user
             ];
 
-
-
-
             return $this->render('posts/singlePost', $data);
         endif;
 
         $request->redirect('/posts');
     }
+
+    public function addPost()
+    {
+        return $this->render('posts/addPost');
+
+    }
+
+    public function editPost(Request $request, $urlParam = null)
+    {
+        $data = [
+           $urlParam['name'] =>$urlParam['value']
+        ];
+
+        return $this->render('posts/editPost', $data);
+    }
+
 }
 
 
