@@ -57,11 +57,11 @@ class Router
             $endPos = strpos($path, '}');
 
             //id:
-            $argName = substr($path, $startPos+1, $endPos - $startPos-1);
+            $argName = substr($path, $startPos + 1, $endPos - $startPos - 1);
             $callback['urlParamName'] = $argName;
 
             //$path= '/post':
-            $path = substr($path, 0, $startPos-1);
+            $path = substr($path, 0, $startPos - 1);
 
 //            var_dump($argName);
 //            var_dump($path); //atspausdina visus is 'index.php'
@@ -92,16 +92,8 @@ class Router
         //GAUNAMAS KELIAS PO "LOCALHOST"
         $path = $this->request->getPath();
         $method = $this->request->method();
-        
-        //path = "/post/1" - take argument value "1"
-        //path = "/post" - skip argument take
-        $pathArr = explode('/', ltrim($path, '/')); //nutriminti '/', kad nesprogdintu tuscio stringo
-        if (count($pathArr) > 1) :
-            $path = '/'. $pathArr[0];
-        $urlParam['value'] = $pathArr[1];
-            endif;
 
-        var_dump($pathArr);
+//        var_dump($pathArr);
 
 //        var_dump($method);
 //        var_dump($path);
@@ -116,9 +108,35 @@ class Router
 
         //IF THERE ARE NO SUCH ROUTE ADDED
         if ($callback === false) :
-            //404 error sukurti
-            $this->response->setResponseCode(404);
-            return $this->renderView('_404');
+
+            //path = "/post/1" - take argument value "1"
+            //path = "/post" - skip argument take
+            $pathArr = explode('/', ltrim($path, '/')); //nutriminti '/', kad nesprogdintu tuscio stringo
+
+
+            // path = "/post/1" take argument value 1
+            // path = "/post" skip path argument take
+            // extract 1
+            if (count($pathArr) === 2) :
+                $path = '/' . $pathArr[0];
+                $urlParam['value'] = $pathArr[1];
+            endif;
+
+//            var_dump($path);
+
+            // path = "/post/edit/1" take argument value 1
+            if (count($pathArr) === 3) :
+                $path = '/' . $pathArr[0] . "/" . $pathArr[1];
+                $urlParam['value'] = $pathArr[2];
+            endif;
+
+            $callback = $this->routes[$method][$path] ?? null;
+
+            if (!isset($urlParam['value'])) :
+                //404 error sukurti
+                $this->response->setResponseCode(404);
+                return $this->renderView('_404');
+            endif;
 
         endif;
 
@@ -135,19 +153,19 @@ class Router
             Application::$app->controller = $instance; //handleContact iskvieciam
             $callback[0] = Application::$app->controller;
 //            var_dump($callback);
-        
-        //check if we have url arguments in callback array
+
+            //check if we have url arguments in callback array
             if (isset($callback['urlParamName'])) :
 //                   0 => string 'app\controller\PostsController'
 //                   1 => string 'post'
 //                  'urlParamName' => string 'id'
 
                 $urlParam['name'] = $callback['urlParamName'];
-            array_splice($callback, 2, 1);
-                endif;
+                array_splice($callback, 2, 1);
+            endif;
         endif;
 
-        var_dump($callback);
+//        var_dump($callback);
 
 
         //IF PAGE EXIST

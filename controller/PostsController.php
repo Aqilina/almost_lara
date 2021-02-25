@@ -6,15 +6,18 @@ namespace app\controller;
 
 use app\core\Controller;
 use app\model\PostModel;
+use app\model\UserModel;
 use app\core\Request;
 
 class PostsController extends Controller
 {
     public PostModel $postModel;
+    public UserModel $userModel;
 
     public function __construct()
     {
         $this->postModel = new PostModel();
+        $this->userModel = new UserModel();
     }
 
     public function index(Request $request)
@@ -28,10 +31,23 @@ class PostsController extends Controller
 
     public function post(Request $request, $urlParam = null)
     {
-        if ($urlParam['value']) :
+        if ($urlParam['value']) : //value = id value
+
+            $id = $urlParam['value'];
+
+            //get post data by post id
+            $post = $this->postModel->getPostById($id);
+            //get user data by user id
+
+        //jei ivestas ne tas post id
+        if ($post === false) return $this->render('_404');
+
+            $user = $this->userModel->getUserById($post->user_id);
 
             $data = [
-                $urlParam['name'] => $urlParam['value'],
+//                $urlParam['name'] => $urlParam['value'],
+                'post' => $post,
+                'user' => $user
             ];
 
             return $this->render('posts/singlePost', $data);
@@ -39,6 +55,23 @@ class PostsController extends Controller
 
         $request->redirect('/posts');
     }
+
+
+    public function addPost()
+    {
+
+        return $this->render('posts/addPost', $data);
+    }
+
+    public function editPost(Request $request, $urlParam = null)
+    {
+        $data = [
+           $urlParam['name'] =>$urlParam['value']
+        ];
+
+        return $this->render('posts/editPost', $data);
+    }
+
 }
 
 

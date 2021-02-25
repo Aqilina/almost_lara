@@ -53,7 +53,14 @@ $app->router->get('/logout', [AuthController::class, 'logout']);
 
 //create post
 $app->router->get('/posts', [PostsController::class, 'index']);
-$app->router->get('/post/{id}', [PostsController::class, 'post', ]);
+$app->router->get('/post/{id}', [PostsController::class, 'post']);
+
+//post/add
+$app->router->get('/post/add', [PostsController::class, 'addPost']);
+$app->router->post('/post/add', [PostsController::class, 'addPost']);
+
+//post/edit
+$app->router->get('/post/edit/{id}', [PostsController::class, 'editPost']);
 
 $app->run();
 
