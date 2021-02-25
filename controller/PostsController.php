@@ -56,10 +56,11 @@ class PostsController extends Controller
         $request->redirect('/posts');
     }
 
+
     public function addPost()
     {
-        return $this->render('posts/addPost');
 
+        return $this->render('posts/addPost', $data);
     }
 
     public function editPost(Request $request, $urlParam = null)

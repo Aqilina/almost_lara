@@ -16,11 +16,11 @@
     <hr>
 <?php //if ($post']->user_ === $_SESSION['user_id']) : ?>
     <!--PARODO PARAM ID-->
-    <a href="<?php echo '/posts/edit/' . $post->post_id ?>" class="btn btn-info"><i
+    <a href="<?php echo '/post/edit/' . $post->post_id ?>" class="btn btn-info"><i
                 class="fa fa-pencil"></i> Edit</a>
 
     <!--forma apdorojama posts/delete-->
-    <form action="<?php echo '/posts/delete/' . $post->post_id ?>" method="post" class="float-right">
+    <form action="<?php echo '/post/delete/' . $post->post_id ?>" method="post" class="float-right">
         <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i> Delete</button>
     </form>
 
